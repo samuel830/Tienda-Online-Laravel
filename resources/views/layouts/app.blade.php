@@ -40,6 +40,7 @@
               <a class="nav-link active" href="{{ route('register') }}">Register</a>
             @endif
             @if (Auth::check())
+              <a class="nav-link active" href="{{ route('home.conf') }}">{{session("nombreUsuario")}}</a>
               <a class="nav-link active" href="{{ route('admin.home.index') }}">Admin</a>
               <a class="nav-link active" href="{{ route('home.conf') }}">Configuracion</a>
               <a class="nav-link active" href="{{ route('logout') }}">Logout</a>

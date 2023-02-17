@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class HomeControler extends Controller
 {
     public function index(){
         $viewData = [];
         $viewData["title"] = "Página principal - Tienda online";
+        if(Auth::user()){
+            session(['nombreUsuario' => Auth::user()->getName()]);
+        }
+
         return view('home.index')
             ->with("viewData", $viewData);
     }

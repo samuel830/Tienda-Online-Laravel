@@ -29,6 +29,7 @@ class AdminProductController extends Controller
         $producto -> description = $validate["description"];
         $producto -> price = $validate["price"];
         $producto -> image = 'image.jpg';
+        $producto -> especificaciones = 'especificaciones.txt';
         $producto -> save();
 
         if($request->hasFile("image")){
@@ -43,7 +44,21 @@ class AdminProductController extends Controller
 
             $producto -> image = $imageName;
             $producto -> save();
-        }   
+        }  
+        
+        if($request->hasFile("especificaciones")){
+            $extension = $request->file("especificaciones")->extension();
+            $idProducto = $producto->getId();
+            $especificacionesName = $idProducto.".".$extension;
+
+            Storage::disk('public')->put(  
+                $especificacionesName,  
+                file_get_contents($request->file('especificaciones')->getRealPath())  
+            );
+
+            $producto -> especificaciones = $especificacionesName;
+            $producto -> save();
+        }  
 
 
         $viewData =[];
@@ -105,6 +120,20 @@ class AdminProductController extends Controller
             $product -> image = $imageName;
             $product -> save();
         } 
+
+        if($request->hasFile("especificaciones")){
+            $extension = $request->file("especificaciones")->extension();
+            $idProducto = $producto->getId();
+            $especificacionesName = $idProducto.".".$extension;
+
+            Storage::disk('public')->put(  
+                $especificacionesName,  
+                file_get_contents($request->file('especificaciones')->getRealPath())  
+            );
+
+            $producto -> especificaciones = $especificacionesName;
+            $producto -> save();
+        }
 
         $viewData =[];
         $viewData["title"] = "Administrador de productos";
